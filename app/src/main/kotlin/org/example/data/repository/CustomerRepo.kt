@@ -20,13 +20,13 @@ class CustomerRepo {
 
     fun addCustomer(customer: Customer):String = transaction {
         try {
-            Customers.insert {
+            val id = Customers.insert {
                 it[firstName] = customer.firstName
                 it[lastName] = customer.lastName
                 it[contactNo] = customer.contactNo
 
-            }
-            "Customer ${customer.firstName} created with id ${customer.customerId}"
+            } get Customers.customerId
+            "Customer ${customer.firstName} created with id $id"
         } catch (e: Exception){
             "Customer ${customer.firstName} could not be added: ${e.message}"
     }
